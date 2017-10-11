@@ -23,6 +23,7 @@ The goals / steps of this project are the following:
 [image2]: ./saved/road.png "Road Transformed"
 [image3]: ./saved/chessboard_distorted.png "Chessboard distorted"
 [image4]: ./saved/chessboard_undistorted.png "chessboard undistorted"
+[image5]: ./saved/combined_threshold.png "chessboard undistorted"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
@@ -70,9 +71,15 @@ Since the distortion is barely visible on the test images I used a chessboard im
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image.  Here's an example of my output for this step.
 
-![alt text][image3]
+I used a combination of the gradient-related thresholds this way: (sobelx AND sobely) OR (sobel magnitude AND gradient direction) 
+
+I only used a threshold on the Saturation part of HLS because the others seemed to give a redundant result
+
+The Light part of HLS performs really well on white lines, but may encounter problems with other colors
+
+![alt text][image5]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 

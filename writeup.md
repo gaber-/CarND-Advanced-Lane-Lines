@@ -71,13 +71,16 @@ Since the distortion is barely visible on the test images I used a chessboard im
 
 I used a combination of color and gradient thresholds to generate a binary image.  Here's an example of my output for this step.
 
+![alt text][image5]
+
 I used a combination of the gradient-related thresholds this way: (sobelx AND sobely) OR (sobel magnitude AND gradient direction) 
 
 I only used a threshold on the Saturation part of HLS because the others seemed to give a redundant result
 
 The Light part of HLS performs really well on white lines, but may encounter problems with other colors
 
-![alt text][image5]
+The code can be found in cells 3 to 6.
+
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -103,6 +106,9 @@ I verified that my perspective transform was working as expected by drawing the 
 
 ![alt text][image6]
 
+The code can be found in cells 10 to 12 (cells 7 and 8 contain project one's pipeline, which I used to identify the lines from which I extracted the points)
+
+
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 I identified the pixels based on the aforementioned thresholds. I then used two techniques one for the first frame ond one for the following frames in each video:
@@ -115,11 +121,14 @@ Here's an example of 2nd degree polynomial fit to the selected pixels:
 
 ![alt text][image7]
 
+The first function is in cell 14 the second in cell 17
+
+
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 I calculated the radius of the curve using the computed polynomial. The results seem realistic.
 
-
+The code is in cell 20
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 

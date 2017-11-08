@@ -73,13 +73,21 @@ I used a combination of color and gradient thresholds to generate a binary image
 
 ![alt text][image5]
 
-I used a combination of the gradient-related thresholds this way: (sobelx AND sobely) OR (sobel magnitude AND gradient direction) 
+I used a combination of the gradient-related thresholds this way: I created some binary images by thresholding color or sobel gradients
 
-I only used a threshold on the Saturation part of HLS because the others seemed to give a redundant result
+I applied different thresholds to the same gradient map for the most important algorithms.
+
+I summed all the binary images and applied a threshold to the resulting image, creating another binary image which is the result of the "voting" of the various binary maps. This held a better result than simply AND and OR-ing the binary images.
 
 The Light part of HLS performs really well on white lines, but may encounter problems with other colors
 
-The code can be found in cells 3 to 6.
+Sobelx or sobel magnitude tend to sketch the contour of the lane lines, well but is prone to noise at high sensibility (low threshold)
+
+Sobel gradient is really noisy but seems to catch the lanes in ways the other techniques I employed don't, and with a single vote it can't add noise to the image by itself.
+
+The saturation part of HLS usually catches the lane even with different colors (eg blue, which other color-based tends to be missed) but is really noisy
+
+The code can be found in cells 3 to 7.
 
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
@@ -110,20 +118,20 @@ I identified the pixels based on the aforementioned thresholds. I then used two 
 
 The first one was based on a histogram, and I performed a window search looking for the most likely candidate area on each line, based on how concentrated the pixels were in the area.
 
-I then selected the pixels within a given margin (300 in my case) and fit a different second degree polynomial to the selected pixels. The theory being that frames next to each other have similar polynomials
+I then selected the pixels within a given margin (100 in my case) and fit a different second degree polynomial to the selected pixels. The theory being that frames next to each other have similar polynomials
 
 Here's an example of 2nd degree polynomial fit to the selected pixels:
 
 ![alt text][image7]
 
-The first function is in cell 14 the second in cell 17
+The first function is in cell 15 the second in cell 18
 
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 I calculated the radius of the curve using the computed polynomial. The results seem realistic.
 
-The code is in cell 20
+The code is in cell 21
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
@@ -147,12 +155,10 @@ Here's a [link to my video result](./out/project_video.mp4)
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
-I started preparing the images, removing the camera deformation and the perspective deformation. To pick the right points for the perspective transform operation I used the lane detection pipeline from project one, which draws straight lines in correspondance with the lane lines. One challenging part of ths phase was picking how long the lines should be: too short and they'd capture a short part of the lane, too long and the curved lines tend to exit fromt the sides of the transformed image.
+I started preparing the images, removing the camera deformation and the perspective deformation. I used some fixed points which yelded a good result.
 
-This issue is visible in the video as tight curves' detected (green) lanes appear cut diagonally.
-
-Then I chose which algorithms to apply to generate a binary map of the interesting pixels. This is where I used saturation and gradient thresholding. The challenge here is how to find a good set among the wealth of techniques available (many of which redundant) in order to keep as many "good" pixels with as little noise as possible.
+Then I chose which algorithms to apply to generate a binary map of the interesting pixels. This is where I used saturation, color and gradient thresholding. The challenge here is how to find a good set among the wealth of techniques available (many of which redundant) in order to keep as many "good" pixels with as little noise as possible. This is complicated by the fact there are many different types of images whith different kinds of issues (you can't tune the thresholding parameters for a specific set of images because it wouldn't work on others).
 
 Lastly I applied the techniques to extract the polinomials most likely to fit  the two lines and plotted them on the image.
 
-The current implementation may be confused by certain kinds of shadow (especially if only part of the image is shadowy), sudden variations in curvature of the lane or orientation of the car and extreme curvatures of the lane.
+The current implementation may be confused by sudden variations in curvature of the lane or orientation of the car and extreme curvatures of the lane.

@@ -84,21 +84,18 @@ The code can be found in cells 3 to 6.
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-I extracted the four original points using the straight line lane detection pipeline I used in project 1 by picking the extremes of the two lane lines on a quasi-straight image and mapped them to a rectangle of coordinates 
+I used a fixed set of points for the transform:
 
-
-```python 
-points2 = np.float32([[image.shape[1]-200,image.shape[0]],[image.shape[1]-200,200],[200,200],[200,image.shape[0]]])
-```
-
-This resulted in the following source and destination points:
-
-| Source        | Destination   | 
-|:-------------:|:-------------:| 
-| as detected   | 1080, 720     | 
-| as detected   | 1080, 200     |
-| as detected   | 200, 200      |
-| as detected   | 200, 720      |
+# Four source coordinates
+src = np.float32([[545, 460],
+                [735, 460],
+                [1280, 700],
+                [0, 700]])
+# Four desired coordinates
+dst = np.float32([[0, 0],
+                 [1280, 0],
+                 [1280, 720],
+                 [0, 720]])
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 

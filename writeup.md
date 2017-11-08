@@ -86,8 +86,6 @@ The code can be found in cells 3 to 6.
 
 I extracted the four original points using the straight line lane detection pipeline I used in project 1 by picking the extremes of the two lane lines on a quasi-straight image and mapped them to a rectangle of coordinates 
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
-
 
 ```python 
 points2 = np.float32([[image.shape[1]-200,image.shape[0]],[image.shape[1]-200,200],[200,200],[200,image.shape[0]]])
@@ -159,3 +157,5 @@ This issue is visible in the video as tight curves' detected (green) lanes appea
 Then I chose which algorithms to apply to generate a binary map of the interesting pixels. This is where I used saturation and gradient thresholding. The challenge here is how to find a good set among the wealth of techniques available (many of which redundant) in order to keep as many "good" pixels with as little noise as possible.
 
 Lastly I applied the techniques to extract the polinomials most likely to fit  the two lines and plotted them on the image.
+
+The current implementation may be confused by certain kinds of shadow (especially if only part of the image is shadowy), sudden variations in curvature of the lane or orientation of the car and extreme curvatures of the lane.

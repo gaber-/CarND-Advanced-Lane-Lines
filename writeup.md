@@ -118,7 +118,9 @@ I identified the pixels based on the aforementioned thresholds. I then used two 
 
 The first one was based on a histogram, and I performed a window search looking for the most likely candidate area on each line, based on how concentrated the pixels were in the area.
 
-I then selected the pixels within a given margin (100 in my case) and fit a different second degree polynomial to the selected pixels. The theory being that frames next to each other have similar polynomials
+On the second I selected the pixels within a given margin (100 in my case) and fit a different second degree polynomial to the selected pixels. The theory being that frames next to each other have similar polynomials
+
+On this one I perform a sanity check: I assert that the distance of the car is less than 1.5 m away from the center of the lane, otherwise I perform the histogram based search again.
 
 Here's an example of 2nd degree polynomial fit to the selected pixels:
 
